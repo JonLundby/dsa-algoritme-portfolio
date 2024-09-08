@@ -1,3 +1,3 @@
 # Algoritme portfolio
 
-Et portfolio af algoritmer
+En portfolio af algoritmer
