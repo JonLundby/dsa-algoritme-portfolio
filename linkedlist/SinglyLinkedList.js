@@ -7,7 +7,7 @@ class Node {
     }
 }
 
-export default class SinglyLinkedList {
+export default class singlylinkedlist {
     // Constructor
     constructor() {
         this.head = null; // Den første node

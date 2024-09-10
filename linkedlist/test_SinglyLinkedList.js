@@ -1,16 +1,22 @@
-import SinglyLinkedList from "./singlylinkedlist.js";
+import singlylinkedlist from "./singlylinkedlist.js";
 
 
-const singlylinkedlist = new SinglyLinkedList()
+const lst = new singlylinkedlist()
 
-singlylinkedlist.add("n1");
-singlylinkedlist.add("n2");
-singlylinkedlist.add("n3");
-singlylinkedlist.add("n4");
-singlylinkedlist.add("n5");
+lst.add("n1");
+lst.add("n2");
+lst.add("n3");
+lst.add("n4");
+lst.add("n5");
 
-console.log(singlylinkedlist.get(0));
+// console.log(lst.get(0));
+// console.log(lst.get(2));
+// console.log(lst.get(4));
+
+// console.log(lst.getFirst());
+console.log(lst.getLast());
+console.log(lst.remove("n5"))
 
 // console.log(singlylinkedlist);
 console.log("-------printer liste--------")
-singlylinkedlist.printList();
+lst.printList();
