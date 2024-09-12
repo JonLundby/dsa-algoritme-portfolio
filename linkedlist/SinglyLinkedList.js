@@ -11,14 +11,14 @@ export default class singlylinkedlist {
     // Constructor
     constructor() {
         this.head = null; // Den første node
-        this.size = 0;
+        this._size = 0;
     }
 
     // add( data ) - der opretter en ny node, med link til data-objektet, og tilføjer den til listen
     add(data) {
         //add modtager data objekt
         this.head = new Node(data, this.head); // listens head er en ny node og peger på head som første gang er null og herefter peger den på den foregående node
-        this.size = this.size + 1;
+        this._size = this._size + 1;
     }
 
     // remove( data ) - der finder en node med link til dét data-objekt, og fjerner noden.
@@ -42,7 +42,7 @@ export default class singlylinkedlist {
             //hvis current (head) er det samme som data
             if (current.data === data) {
                 previous.next = current.next; // så sættes previous node til at pege på noden som current noden peger på (altså springes current node over fordi den skal removes)
-                this.size--; // size bliver 1 mindre
+                this._size--; // _size bliver 1 mindre
                 return data; // returner det fundne og fjernede object
             }
             previous = current; // den node vi har kigget på, og som ikke var den der skulle removes, bliver sat til previous
@@ -67,6 +67,7 @@ export default class singlylinkedlist {
             return null;
         }
 
+        // hvis head ikke peger på noget så er der kun en node og den returneres
         if (this.head.next === null) {
             return this.head.data;
         }
@@ -86,50 +87,177 @@ export default class singlylinkedlist {
 
     // get( index ) - der returnerer data-objektet på det pågældende index i listen.
     get(index) {
-        // hvis head er null så er listen tom så kan index ikke findes
-        if (this.head === null) {
-            console.log("listen er tom");
+        // tjek om index er inden for længde af listen
+        if (index < 0 || index >= this._size) {
+            console.log("index out of bounds");
             return null;
         }
 
         // første head node gemmes i variabel
         let current = this.head;
-        
-        // iteration over listens længde
-        for (let i = 0; i < this.size; i++) {
-            
-            // hvis er lig med index så returneres det data der er  current
-            if (i === index) {
-                return current.data
-            }
 
-            // current node bliver til næste da i ikke var lig index
+        // iteration indtil index tallet
+        for (let i = 0; i < index; i++) {
+            // current node bliver til næste indtil index er nået
+            current = current.next;
+        }
+        return current.data;
+    }
+
+    // getFirstNode() - der returnerer den første node i listen
+    getFirstNode() {
+        // hvis listen er tom returneres null ellers returneres head
+        if (this.head === null) {
+            return null;
+        } else {
+            return this.head;
+        }
+    }
+
+    // getNextNode( node ) - der returnerer noden efter denne (eller null, hvis der ikke er nogen)
+    getNextNode(node) {
+        let current = this.head;
+
+        // Gennemløb listen for at finde den angivne node
+        while (current) {
+            // Når noden findes, returneres dens 'next'
+            if (current === node) {
+                return current.next;
+            }
             current = current.next;
         }
 
-        return null; // når fo loopet er færdigt må index være out of bounds
+        // Returner null, hvis noden ikke findes, eller hvis der ikke er en næste node
+        return null;
     }
 
-    // ------------------------
-
-    // getFirstNode() - der returnerer den første node i listen
-    // getNextNode( node ) - der returnerer noden efter denne (eller null, hvis der ikke er nogen)
     // getLastNode() - der returnerer den sidste node i listen
-    // getNodeWith( data ) - der returnerer den node der linker til dette data-objekt
-    // removeNode( node ) - der fjerner dén node fra listen
-    // removeFirstNode() - der fjerner den første node fra listen
-    // removeLastNode() - der fjerner den sidste node fra listen
-    // insertAfter( node ) - der indsætter en ny node efter den pågældende
+    getLastNode() {
+        // hvis listen er tom returneres null
+        if (this.head === null) {
+            return null;
+        }
 
-    // ------------------------
+        let current = this.head;
+
+        while (current.next !== null) {
+            current = current.next;
+        }
+        return current;
+    }
+
+    // getNodeWith( data ) - der returnerer den node der linker til dette data-objekt
+    getNodeWith(data) {
+        let current = this.head;
+
+        // Gennemløb listen for at finde den angivne node
+        while (current) {
+            if (current.data === data) {
+                return current;
+            }
+            // Når noden findes, returneres den
+            current = current.next;
+        }
+        // Returner null, hvis noden ikke findes
+        return null;
+    }
+
+    // removeNode( node ) - der fjerner dén node fra listen
+    removeNode(node) {
+        // Hvis listen er tom, returneres null
+        if (this.head === null) {
+            return null;
+        }
+
+        // Hvis noden der skal fjernes er head
+        if (this.head === node) {
+            this.head = this.head.next; // så skal head sættes til at være den næste node og hvis den er null så bliver listen tom
+            this._size--;
+            return;
+        }
+
+        let current = this.head;
+        let previous = null; // previous node holder på den sidste node vi har kigget på, dette er nødvendigt i singly linked list som ikke har en prev reference
+
+        // Så længe noden der kigges på er noget
+        while (current !== null) {
+            // Hvis noden matcher den der skal fjernes
+            if (current === node) {
+                // så skal previous node pege på næste node efter den der fjernes
+                previous.next = current.next;
+                this._size--; // _size skal være 1 mindre
+                return
+            }
+            previous = current; // den node vi har kigget på bliver sat til previous
+            current = current.next; // den næste der skal kigges på
+        }
+    }
+
+    // removeFirstNode() - der fjerner den første node fra listen
+    removeFirstNode() {
+        if (this.head === null) {
+            return null;
+        } else {
+            this.head = this.head.next;
+            this._size--;
+        }
+    }
+
+    // removeLastNode() - der fjerner den sidste node fra listen
+    removeLastNode() {
+        // hvis listen er tom
+        if (this.head === null) {      
+            return null;
+        }
+
+        //hvis listen er 1 så skal head fjernes
+        if (this.head.next === null) {
+            this.head = null;
+            this._size--;
+            return;
+        }
+
+        let current = this.head;
+        let previous = null;
+
+        while (current.next !== null) {
+            previous = current
+            current = current.next;
+        }
+        previous.next = null
+        this._size--;
+    }
+
+    // insertAfter( node ) - der indsætter en ny node efter den pågældende
+    insertAfter(node, data) {
+        // hvis noden der skal indsættes noget efter er null så ved vi ikke hvor det skal indsættes
+        if (node === null) {
+            return
+        }
+
+        const newNode = new Node(data); // den nye node med data
+        newNode.next = node.next; // den nye node skal pege på den node som den node der skal indsættes efter peger på
+        node.next = newNode; // den node der skal indsættes efter skal pege på den nye node
+        this._size++;
+
+    }
 
     // clear() - der fjerner alle nodes fra listen, og sørger for at den er tom.
-    // size() - der returnerer antallet af nodes i listen
+    clear() {
+        this.head = null; 
+        this._size = 0;
+    }
+
+    // _size() - der returnerer antallet af nodes i listen
+    size() {
+        return this._size;
+    }
 
     printList() {
         let current = this.head;
+
         while (current !== null) {
-            if (current.data === undefined) {
+            if (current.data === null) {
                 console.log("No data in node");
             } else {
                 console.log(current.data); // Udskriv data for hver node
