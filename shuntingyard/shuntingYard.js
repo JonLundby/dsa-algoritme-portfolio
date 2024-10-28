@@ -18,6 +18,10 @@ export default function shuntingYard(expression) {
 
     const associativity = {
         "^": "right", // den eneste der har right som association
+        "/": "left",
+        "*": "left",
+        "+": "left",
+        "-": "left",
     };
 
     // builder inputQueue fra expression
@@ -45,18 +49,22 @@ export default function shuntingYard(expression) {
 
                 operaterStack.pop();
             } else {
-                // så længe den operator der itereres over har en lavere precedence end toppen af operatorStack...
+                // så længe den operator der itereres over har en lavere precedence end operatoren i toppen af operatorStack...
+                // ...eller hvis de har den samme precedence og en right assiciativity...
                 // ...så skal toppen af operator Stack smides over i outputQueue...
-                // ...&& part !== "^"quickfix til det sidste regnestykke "3+4*2/(1-5)^2^3"
-                while (precedence[operaterStack.peek()] >= precedence[part] && part !== "^") {
-                    const operatorPrecedence = operaterStack.pop();
-                    outputQueue.enqueue(operatorPrecedence);
+                while (
+                    precedence[operaterStack.peek()] > precedence[part] ||
+                    (precedence[operaterStack.peek()] === precedence[part] && associativity[part] !== "right")
+                ) {
+                    const operatorPart = operaterStack.pop();
+                    outputQueue.enqueue(operatorPart);
                 }
 
                 operaterStack.push(part);
             }
         }
     }
+
     // tømmer resten af operatorStack over i outputQueue
     while (operaterStack.size() > 0) {
         const opPart = operaterStack.pop();
