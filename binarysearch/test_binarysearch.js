@@ -39,6 +39,6 @@ const persons = [
 
 // *** binary search RECURSIVE ***
 
-// console.log(binarySearchRecursive(34, values, 0, values.length, compare));
+console.log(binarySearchRecursive(34, values, 0, values.length, compare));
 console.log(binarySearchRecursive("kalundborg", ordliste, 0, ordliste.length, stringCompareFunction));
-// console.log(binarySearchRecursive("Neville Longbottom", persons, 0, persons.length, nameCompareFunction));
+console.log(binarySearchRecursive("Neville Longbottom", persons, 0, persons.length, nameCompareFunction));
