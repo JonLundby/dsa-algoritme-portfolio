@@ -20,6 +20,32 @@ export function insertionSortShift(arr) {
     }
 
     console.log(`InsertionShift, number of iterations: ${iterations}`);
-
     return arr;
+}
+
+export function insertionSortSwap(arr) {
+    let iterations = 0;
+
+    // starter med at kigge på 2. element i array
+    for (let i = 1; i < arr.length; i++) {
+        let j = i;
+
+        // så længe "i" element i array er mindre end elementet før...
+        // så byttes de to. Og da j bliver en mindre j-- så forsætter denne procedure en enkelt index plads tilbage i arrayet
+        while (j > 0 && arr[j] < arr[j - 1]) {
+            swap(j, j - 1);
+            j--;
+        }
+
+        iterations++;
+    }
+
+    console.log(`InsertionSwap, number of iterations: ${iterations}`);
+    return arr;
+
+    function swap(indexA, indexB) {
+        const temp = arr[indexA];
+        arr[indexA] = arr[indexB];
+        arr[indexB] = temp;
+    }
 }
