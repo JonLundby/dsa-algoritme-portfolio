@@ -1,7 +1,13 @@
 // import { merge } from "./mergesort.js";
 import { mergeSort } from "./mergesort.js";
 
-const listB = [10, 99, 25, 4, 15, 6, 19, 80];
+const listA = [];
+const listB = [80];
+const listC = [3, 5, 1, 2, 9];
+const listD = [10, 99, 25, 4, 15, 6, 19, 80];
+
+const listMergeSorted = mergeSort(listD)
+console.log(listMergeSorted);
 
 
 // test af merge funktion
@@ -11,5 +17,3 @@ const listB = [10, 99, 25, 4, 15, 6, 19, 80];
 // const mergedArr = merge(listA, listB);
 
 // console.log(mergedArr);
-
-
