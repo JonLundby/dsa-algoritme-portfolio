@@ -1,3 +1,5 @@
+// BigO(n log n) - n iterationer for at splitte alle arrayets elementer til enkelte elementer og log n for at samle dem igen i halve dele
+
 let iterations = 0;
 
 export function mergeSort(arr) {
